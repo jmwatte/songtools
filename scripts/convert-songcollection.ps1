@@ -11,9 +11,9 @@ Get-Content $in | ForEach-Object {
     $line = $_.Trim()
     if ($line -eq '') { return }
 
-    # Key lines: either "key:Ab" or "Key C low" etc.
-    if ($line -match '^[Kk]ey\s*:\s*(.+)$') { $currentKey = $matches[1].Trim(); return }
-    if ($line -match '^[Kk]ey\s+(.+)$') { $currentKey = $matches[1].Trim(); return }
+    # Key lines: either "key:Ab" or "Key C low" etc.  Match only when the key is the whole line (no trailing tab-separated fields)
+    if ($line -match '^[Kk]ey\s*:\s*([^\t\r\n]+)\s*$') { $currentKey = $matches[1].Trim(); return }
+    if ($line -match '^[Kk]ey\s+([^\t\r\n]+)\s*$') { $currentKey = $matches[1].Trim(); return }
 
     # Skip header lines
     if ($line -match '^(Song title|Title|itle)\s*\t') { return }
